@@ -1,0 +1,13 @@
+h1 {
+    color: #ecbbbb;
+    text-transform: lowercase;
+    text-align: center;
+}
+
+.hello {
+    display: block;
+    margin: 0 auto;
+    max-height: 500px;
+}
+
+

@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    Каталог
+{% endblock title %}
+{% block content %}
+<!--<h1 class="mb-4">каталог</h1>-->
+<!--<form method="get" class="text-lowercase text-center mb-5 d-flex">-->
+<!--    {% render_field filter.form.s class="form-control" %}-->
+<!--    <button type="submit" class="btn pt-1 pb-2 ms-2 btn-refresh">-->
+<!--        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">-->
+<!--            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>-->
+<!--        </svg>-->
+<!--    </button>-->
+<!--</form>-->
+<div class="row">
+    <div class="col-3">
+        <form method="get" class="text-lowercase text-center mb-4">
+            <div class="fw-semibold mb-1">цена</div>
+            {% render_field filter.form.o class="form-control w-100 mb-3" %}
+            <div class="fw-semibold mb-1">животные</div>
+            {% render_field filter.form.animal class="form-control w-100 mb-3" %}
+            <div class="fw-semibold mb-1">категории</div>
+            {% render_field filter.form.category class="form-control w-100 mb-3" %}
+            <div class="fw-semibold mb-1">бренды</div>
+            {% render_field filter.form.brand class="form-control w-100 mb-4" %}
+            <button type="submit" class="btn w-100 pt-1 pb-2 fw-semibold btn-do">применить</button>
+        </form>
+        <a href="{%  url 'product_list' %}">
+            <button class="btn w-100 pt-1 pb-2 fw-semibold btn-cancel">сбросить</button>
+        </a>
+    </div>
+    <div class="col ms-5">
+        <div class="row row-cols-2 row-cols-md-3 g-3">
+            {% for product in filter.qs %}
+            <div class="col">
+                <div class="card">
+                    <a href="{{ product.get_absolute_url }}"
+                       class="text-decoration-none text-black">
+                        <img src="{% if product.image %}
+                                    {{ product.image.url }}
+                                    {% else %}
+                                    {% static 'img/hello.jpg' %}
+                                    {% endif %}"
+                             class="card-img-top">
+                        <div class="card-body text-center">
+                            <div class="card-title text-truncate">{{ product.name }}</div>
+                            <h5 class="card-text">{{ product.price }} ₽</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

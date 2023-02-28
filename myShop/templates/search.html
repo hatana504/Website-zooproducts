@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}
+    Поиск заказов
+{% endblock title %}
+{% block content %}
+    {% if list_of_all_orders.count == 0 %}
+    <h1 class="mb-4">Список заказов пуст</h1>
+    {% else %}
+    <h1 class="mb-4">Список заказов</h1>
+    <h5 class="text-center text-lowercase mb-3 text-dark">{{ list_of_all_orders.0.customer }}</h5>
+    <table class="table text-center m-auto text-black">
+        <thead>
+            <tr>
+                <th scope="col">Заказанный продукт</th>
+                <th scope="col">Дата заказа</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in list_of_all_orders %}
+            <tr>
+                <td>{{ order.product }}</td>
+                <td>{{ order.order_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock content %}
