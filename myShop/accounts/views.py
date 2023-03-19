@@ -52,3 +52,4 @@ def order_history_items(request, id):
         "order": order,
     }
     return render(request, 'profile_history_detail.html', context)
+

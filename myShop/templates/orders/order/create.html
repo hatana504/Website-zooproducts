@@ -48,15 +48,23 @@
                         <li class="list-group-item border border-0 text-black">
                             <div class="row">
                                 <div class="col">{{ item.product.name }}({{ item.quantity }})</div>
-                                <div class="col text-end">{{ item.total_price }} руб</div>
+                                <div class="col text-end">{{ item.total_price }} ₽</div>
                             </div>
                         </li>
                         {% endfor %}
+                        {% if cart.promocode %}
+                        <li class="list-group-item border border-0 text-black">
+                            <div class="row">
+                                <div class="col">{{ cart.promocode.code }}({{ cart.promocode.discount }}%)</div>
+                                <div class="col text-end">-{{ cart.get_discount|floatformat:"2" }} ₽</div>
+                            </div>
+                        </li>
+                        {% endif %}
                         <hr>
                         <li class="list-group-item border border-0 text-black">
                             <h5 class="row">
-                                <div class="col">стоимость</div>
-                                <div class="col text-end">{{ cart.get_total_price }} руб</div>
+                                <div class="col">итого</div>
+                                <div class="col text-end">{{ cart.get_total_price_after_discount|floatformat:"2" }} ₽</div>
                             </h5>
                         </li>
                     </ul>

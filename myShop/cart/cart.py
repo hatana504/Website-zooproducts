@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.conf import settings
 from catalog.models import Product
+from promocode.models import Promocode
 
 
 class Cart(object):
@@ -16,6 +17,8 @@ class Cart(object):
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        # сохранение текущего примененного промокода
+        self.promocode_id = self.session.get('promocode_id')
 
     def add(self, product, quantity=1, update_quantity=False):
         """
@@ -78,3 +81,17 @@ class Cart(object):
         # удаление корзины из сессии
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
+
+    @property
+    def promocode(self):
+        if self.promocode_id:
+            return Promocode.objects.get(id=self.promocode_id)
+        return None
+
+    def get_discount(self):
+        if self.promocode:
+            return (self.promocode.discount / Decimal('100')) * self.get_total_price()
+        return Decimal('0')
+
+    def get_total_price_after_discount(self):
+        return self.get_total_price() - self.get_discount()

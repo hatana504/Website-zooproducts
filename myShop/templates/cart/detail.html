@@ -1,5 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block title %}
     Корзина
 {% endblock title %}
@@ -24,7 +25,7 @@
                 </a>
             </div>
             <div class="col-2">
-                <form action="{% url 'cart_add' product.id %}" method="post" class="d-flex ">
+                <form action="{% url 'cart_add' product.id %}" method="post" class="d-flex">
                     {{ item.update_quantity_form.quantity }} {{ item.update_quantity_form.update }}
                     <button type="submit" class="ms-2 btn btn-refresh pt-1 pb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
@@ -36,7 +37,7 @@
                 </form>
             </div>
             <div class="col-2">
-                {{ item.total_price }} руб
+                {{ item.total_price }} ₽
             </div>
             <div class="col-1 text-end">
                 <button type="button" class="btn btn-delete pt-1 pb-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ product.id }}">
@@ -74,14 +75,33 @@
     <div class="text-center mb-5 col-6 m-auto">
         <h5 class="mb-4">
             <div class="row mb-3">
-                <div class="col">товары</div>
-                <div class="col">{{ total_items }} шт</div>
+                <div class="col text-start">товары ({{ total_items }})</div>
+                <div class="col text-end">{{ cart.get_total_price }} ₽</div>
             </div>
-            <div class="row">
-                <div class="col">стоимость</div>
-                <div class="col">{{ cart.get_total_price }} руб</div>
+            <div class="row mb-3">
+                {% if cart.promocode %}
+                <div class="col text-start">{{ cart.promocode.code }}</div>
+                <div class="col text-end">-{{ cart.get_discount|floatformat:"2" }} ₽</div>
+                {% else %}
+                <div class="col text-start">скидка</div>
+                <div class="col text-end">0 ₽</div>
+                {% endif %}
+            </div>
+            <div class="row mb-3">
+                <div class="col text-start">итого</div>
+                <div class="col text-end">{{ cart.get_total_price_after_discount|floatformat:"2" }} ₽</div>
             </div>
         </h5>
+        <form action="{% url 'apply' %}" method="post" class="d-flex mb-5">
+            {% csrf_token %}
+            {% render_field promocode_apply_form.code class="form-control text-center" placeholder="промокод" %}
+            <button type="submit" class="ms-2 btn btn-refresh pt-1 pb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                </svg>
+            </button>
+        </form>
         <a href="{% url 'order_create' %}">
             <button type="button" class="btn btn-success pt-1 pb-2 w-100 fw-semibold text-light btn-buy">оформить заказ</button>
         </a>

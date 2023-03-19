@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% load i18n %}
 {% block title %}
     Вход
 {% endblock title %}
@@ -13,7 +14,14 @@
         {% render_field form.username class="form-control w-100 mb-4 text-center" %}
         <h5 class="text-center mb-2">пароль</h5>
         {% render_field form.password class="form-control w-100 mb-2 text-center" %}
-        <button class="btn btn-lg btn-secondary mt-4 w-100 fw-semibold btn-log pt-1 pb-2" type="submit">
+
+        {% for error in form.non_field_errors %}
+        {% blocktrans %}
+        <div class="error">{{ error }}</div>
+        {% endblocktrans %}
+        {% endfor %}
+
+        <button class="btn btn-lg btn-secondary mt-4 w-100 fw-semibold btn-log pt-1 pb-2" type="submit" id="login_btn">
             войти
         </button>
     </form>

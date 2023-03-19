@@ -8,10 +8,16 @@ from .tasks import order_created
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST, initial={'city': request.user.profile.city,
-                                                      'address': request.user.profile.address})
+        form = OrderCreateForm(request.POST,
+                               initial={'city': request.user.profile.city,
+                                        'address': request.user.profile.address})
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+            if cart.promocode:
+                order.promocode = cart.promocode
+                order.discount = cart.promocode.discount
+            order.user = request.user
+            order.save()
             for item in cart:
                 OrderItem.objects.create(order=order,
                                          product=item['product'],

@@ -105,7 +105,7 @@
                 {%  for order in order_history  %}
                     <tr onclick="window.location='{% url 'profile_history_detail' order.id %}'">
                         <th scope="row">{{ order.id }}</th>
-                        <td>{{ order.get_total_cost }}</td>
+                        <td>{{ order.get_total_cost }} ₽</td>
                         <td>
                             {% if order.paid == False %}
                                 не оплачен
@@ -126,8 +126,26 @@
     </div>
 </div>
 <div class="text-center mt-5">
-    <a href="{% url 'logout' %}">
-        <button class="btn btn-delete pt-1 pb-2">выйти</button>
-    </a>
+    <button type="button" class="btn btn-delete pt-1 pb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        выйти
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-2 py-3 text-center">
+                    выйти из личного кабинета?
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-between">
+                    <button type="button" class="btn btn-signup pt-1 pb-2" data-bs-dismiss="modal">отмена</button>
+                    <a href="{% url 'logout' %}" class="btn btn-delete-2 pt-1 pb-2">
+                        выйти
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

@@ -46,10 +46,6 @@
                     Каталог
                 </a></li>
             </ul>
-    <!--            Search-->
-<!--            <form action="{% url 'product_list' %}" method="get" class="position-absolute top-50 start-50 translate-middle" role="search">-->
-<!--                <input type="search" class="form-control" name="search" placeholder="поиск..." aria-label="Search">-->
-<!--            </form>-->
             <ul class="nav d-flex">
                 {% if user.is_authenticated %}
     <!--            Liked-->
@@ -117,16 +113,13 @@
 
     </nav>
     <main class="container-fluid py-4 px-5 text-black" style="margin-top: 100px;">
-        {% if user.is_authenticated %}
-            {% block content %}
+        {% block content %}
 
-            {% endblock content %}
-        {% elif request.path == login or request.path == signup or request.path == logout %}
+        {% endblock content %}
+        {% if request.path == login or request.path == signup or request.path == logout %}
             {% block form %}
 
             {% endblock form %}
-        {% else %}
-            <h1 class="text-center">вы не авторизовались</h1>
         {% endif %}
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"

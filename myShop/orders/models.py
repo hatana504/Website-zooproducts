@@ -1,10 +1,13 @@
 from catalog.models import Product
 from django.contrib.auth.models import User
 from django.db import models
+from decimal import Decimal
+from django.core.validators import MinValueValidator, MaxValueValidator
+from promocode.models import Promocode
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, default='1',
+    user = models.ForeignKey(User,
                              on_delete=models.CASCADE, )
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=20)
@@ -12,6 +15,14 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    promocode = models.ForeignKey(Promocode,
+                                  related_name='orders',
+                                  null=True,
+                                  blank=True,
+                                  on_delete=models.CASCADE,)
+    discount = models.IntegerField(default=0,
+                                   validators=[MinValueValidator(0),
+                                               MaxValueValidator(100)])
 
     class Meta:
         ordering = ('-created',)
@@ -21,8 +32,13 @@ class Order(models.Model):
     def __str__(self):
         return 'Order {}'.format(self.id)
 
+    def get_total_cost_without_discount(self):
+        total_cost = sum(item.get_cost() for item in self.items.all())
+        return total_cost
+
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
+        total_cost = sum(item.get_cost() for item in self.items.all())
+        return total_cost - total_cost * (self.discount / Decimal('100'))
 
 
 class OrderItem(models.Model):

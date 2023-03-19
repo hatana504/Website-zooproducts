@@ -1,13 +1,11 @@
+from cart.forms import CartAddProductForm
+from catalog.models import Product
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-
-from catalog.models import Product
-from cart.forms import CartAddProductForm
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
-
 
 def favorites_list(request):
     products = Product.objects.filter(available=True)
@@ -23,7 +21,8 @@ def favorites_add(request):
             request.session['favorites'] = list()
         else:
             request.session['favorites'] = list(request.session['favorites'])
-        item_exist = next((item for item in request.session['favorites'] if item['id'] == request.POST.get('id')), False)
+        item_exist = next((item for item in request.session['favorites'] if item['id'] == request.POST.get('id')),
+                          False)
         add_data = {
             'id': request.POST.get('id'),
         }
