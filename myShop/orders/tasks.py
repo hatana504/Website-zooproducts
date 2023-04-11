@@ -11,5 +11,5 @@ def order_created(order_id):
     message = f'Уважаемый {order.user.first_name},' \
               f'Вы успешно сделали заказ в нашем магазине. ' \
               f'Номер вашего заказа {order.id}.'
-    mail_sent = send_mail(subject, message, [settings.EMAIL_HOST_USER], [order.user.email])
+    mail_sent = send_mail(subject, message, settings.EMAIL_HOST_USER, [order.user.email])
     return mail_sent
