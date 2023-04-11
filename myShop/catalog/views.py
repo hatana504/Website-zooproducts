@@ -2,23 +2,23 @@ from cart.forms import CartAddProductForm
 from django.shortcuts import render, get_object_or_404
 
 from .filters import ProductFilter
-from .models import Product, Category
+from .models import Product, Type
 
 
-def product_list(request, category_slug=None):
-    category = None
-    categories = Category.objects.all()
+def product_list(request, type_slug=None):
+    type = None
+    types = Type.objects.all()
     products = Product.objects.filter(available=True)
-    if category_slug:
-        category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
+    if type_slug:
+        type = get_object_or_404(Type, slug=type_slug)
+        products = products.filter(type=type)
 
     f = ProductFilter(request.GET, queryset=Product.objects.all())
     has_filter = any(field in request.GET for field in set(f.get_fields()))
 
     context = {
-        'category': category,
-        'categories': categories,
+        'type': type,
+        'types': types,
         'products': products,
         'filter': f,
         'has_filter': has_filter

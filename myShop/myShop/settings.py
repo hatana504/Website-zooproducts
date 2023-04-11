@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'accounts',
     'catalog',
     'cart',
-    'favorites',
     'orders',
     'promocode',
     'sass_processor',

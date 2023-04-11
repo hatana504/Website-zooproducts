@@ -2,20 +2,20 @@ from django.db import models
 from django.urls import reverse
 
 
-class Category(models.Model):
+class Type(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True, unique=True)
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = 'Type'
+        verbose_name_plural = 'Types'
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('product_list_by_category',
+        return reverse('product_list_by_type',
                        args=[self.slug])
 
 
@@ -36,30 +36,30 @@ class Brand(models.Model):
                        args=[self.slug])
 
 
-class Animal(models.Model):
+class Material(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True, unique=True)
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'Animal'
-        verbose_name_plural = 'Animals'
+        verbose_name = 'Material'
+        verbose_name_plural = 'Materials'
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('product_list_by_animal',
+        return reverse('product_list_by_material',
                        args=[self.slug])
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='products',
-                                 on_delete=models.CASCADE, )
+    type = models.ForeignKey(Type, related_name='products', default='0000000',
+                             on_delete=models.CASCADE, )
     brand = models.ForeignKey(Brand, related_name='brands', default='0000000',
                               on_delete=models.CASCADE, )
-    animal = models.ForeignKey(Animal, related_name='animals', default='0000000',
-                               on_delete=models.CASCADE, )
+    material = models.ForeignKey(Material, related_name='animals', default='0000000',
+                                 on_delete=models.CASCADE, )
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)

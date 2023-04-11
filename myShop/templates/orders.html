@@ -4,8 +4,8 @@
     Заказы
 {% endblock title %}
 {% block content %}
-    <h1 class="mb-4">Список всех заказов</h1>
-    <table class="table text-center mb-5 m-auto text-black">
+    <h1 class="mb-4">Заказы</h1>
+    <table class="table text-center mb-5 m-auto text-black table-striped">
         <thead class="text-lowercase">
             <tr>
                 <th scope="col">Номер заказа</th>
@@ -25,16 +25,16 @@
         {% endfor %}
         </tbody>
     </table>
-    <h5 class="text-center text-lowercase text-dark mb-3">Поиск заказов</h5>
+    <h5 class="text-center text-dark mb-3">Поиск заказов</h5>
     <div>
-        <form method="GET" action="{% url 'search' %}" class="d-flex col-5 m-auto">
+        <form method="GET" action="{% url 'search' %}" class="d-flex col-8 m-auto">
             {% csrf_token %}
             <select class="form-select rounded-start text-black" name="q">
                 {% for customer in view.all_customers %}
                 <option>{{ customer.first_name }} {{ customer.last_name }}</option>
                 {% endfor %}
             </select>
-            <button class="btn btn-refresh pt-1 pb-2 ms-2" type="submit">
+            <button class="btn btn-outline-secondary pt-1 pb-2 ms-2" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>

@@ -7,51 +7,56 @@
     <div class="px-5">
         {% with total_items=order_history_items|length %}
         {% if total_items > 0 %}
-        <h1 class="mb-4">заказ {{ order.id }}</h1>
+        <h1 class="mb-4">Заказ № {{ order.id }}</h1>
         {%  for item in order_history_items %}
-        <div class="row d-flex align-items-center text-center mb-3">
-            <div class="col-3">
-                 <a href="{{ product.get_absolute_url }}">
-                     <img src="{% if item.image %} {{ item.image.url }} {% else %} {% static 'img/hello.jpg' %} {% endif %}"
-                          class="object-fit-cover border rounded" style="width: 200px; height: 200px;">
+        <div class="mb-5">
+        <div class="d-flex pb-5 border-bottom">
+            <div class="w-25 me-4">
+                <a href="{{ product.get_absolute_url }}">
+                     <img src="{% if product.image %} {{ product.image.url }} {% else %} {% static 'img/logo.jpg' %} {% endif %}"
+                          class="object-fit-cover border rounded w-100">
                  </a>
             </div>
-            <div class="col">
-                <a href="{{ product.get_absolute_url }}" class="text-decoration-none hover-link fw-semibold">
-                    {{ item.product}}
+            <div class="w-100">
+                <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark">
+                    <h3>{{ item.product}}</h3>
                 </a>
-            </div>
-            <div class="col-2">
+                <div class="mt-3">
                 {{ item.quantity}} шт
+                </div>
+                <div class="mt-3 fw-semibold">
+                    {{ item.get_cost}} руб
+                </div>
             </div>
-            <div class="col-2">
-                {{ item.get_cost}} ₽
-            </div>
+        </div>
         </div>
         {% endfor %}
         <div class="text-center mt-5 col-6 m-auto">
-            <h5 class="mb-4">
-                <div class="row mb-3">
-                    <div class="col text-start">товары ({{ total_items }})</div>
-                    <div class="col text-end">{{ order.get_total_cost_without_discount }} ₽</div>
-                </div>
-                <div class="row mb-3">
-                    {% if order.promocode %}
-                    <div class="col text-start">{{ order.promocode.code }}</div>
-                    <div class="col text-end">-{{ order.promocode.discount|floatformat:"2" }} ₽</div>
-                    {% else %}
-                    <div class="col text-start">скидка</div>
-                    <div class="col text-end">0 ₽</div>
-                    {% endif %}
-                </div>
-                <div class="row mb-3">
-                    <div class="col text-start">итого</div>
-                    <div class="col text-end">{{ order.get_total_cost }} ₽</div>
-                </div>
-            </h5>
+            <div class="mb-4">
+            <div class="row mb-2">
+                <div class="col text-start">Товары ({{ total_items }})</div>
+                <div class="col text-end fw-semibold">{{ cart.get_total_price }} руб</div>
+            </div>
+            <div class="row mb-2">
+                {% if cart.promocode %}
+                <div class="col text-start">{{ cart.promocode.code }}</div>
+                <div class="col text-end fw-semibold">-{{ cart.get_discount|floatformat:"2" }} руб</div>
+                {% else %}
+                <div class="col text-start">Скидка</div>
+                <div class="col text-end fw-semibold">0 руб</div>
+                {% endif %}
+            </div>
+            <div class="row mb-2">
+                <div class="col text-start">Итого</div>
+                <div class="col text-end fw-semibold">{{ cart.get_total_price_after_discount|floatformat:"2" }} руб</div>
+            </div>
+            </div>
+            <a href="{% url 'profile' %}">
+            <button type="button" class="btn btn-outline-secondary w-100">Назад</button>
+        </a>
         </div>
         {% else %}
-        <h1 class="mb-4">заказ пуст</h1>
+        <h1 class="mb-4">Заказ пуст</h1>
         {% endif %}
         {% endwith %}
     </div>

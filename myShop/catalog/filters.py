@@ -20,13 +20,13 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
-        fields = ['category', 'brand', 'animal']
+        fields = ['type', 'brand', 'material']
 
     def my_custom_search(self, queryset, name, value):
         return queryset.filter(
             Q(name__icontains=value) |
             Q(description__icontains=value) |
-            Q(category__name__icontains=value) |
+            Q(type__name__icontains=value) |
             Q(brand__name__icontains=value) |
-            Q(animal__name__icontains=value)
+            Q(material__name__icontains=value)
         )

@@ -1,14 +1,14 @@
 from django.contrib import admin
 
-from .models import Category, Product, Brand, Animal
+from .models import Type, Product, Brand, Material
 
 
-class CategoryAdmin(admin.ModelAdmin):
+class TypeAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
 
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(Type, TypeAdmin)
 
 
 class BrandAdmin(admin.ModelAdmin):
@@ -19,12 +19,12 @@ class BrandAdmin(admin.ModelAdmin):
 admin.site.register(Brand, BrandAdmin)
 
 
-class AnimalAdmin(admin.ModelAdmin):
+class MaterialAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
 
-admin.site.register(Animal, AnimalAdmin)
+admin.site.register(Material, MaterialAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):

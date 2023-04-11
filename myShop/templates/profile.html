@@ -4,95 +4,101 @@
     Профиль
 {% endblock title %}
 {% block content %}
-<h1 class="mb-4">профиль</h1>
-<div class="d-flex justify-between mb-5">
-    <div class="card w-50 m-auto mt-0">
+<h1 class="mb-4">Личный кабинет</h1>
+    <div class="card w-50 m-auto mb-5">
         <div class="card-body">
-            <h5 class="card-title text-center border-bottom pb-3">информация о пользователе</h5>
-            <div class="card-text mt-3">
+            <div class="card-text">
                 <table class="table table-borderless">
                     <tbody>
                         <tr>
-                            <th class="fw-light">логин</th>
+                            <th class="fw-light">Логин</th>
                             <td class="text-end">{{ user.username }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">имя</th>
+                            <th class="fw-light">Имя</th>
                             <td class="text-end">{{ user.first_name }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">фамилия</th>
+                            <th class="fw-light">Фамилия</th>
                             <td class="text-end">{{ user.last_name }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">почта</th>
+                            <th class="fw-light">Почта</th>
                             <td class="text-end">{{ user.email }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">город</th>
+                            <th class="fw-light">Город</th>
                             <td class="text-end">{{ user.profile.city }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">адрес</th>
+                            <th class="fw-light">Адрес</th>
                             <td class="text-end">{{ user.profile.address }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-             <button class="btn btn-cancel pt-1 pb-2 w-100 mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                изменить
+             <button class="btn btn-outline-secondary w-100" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Изменить
             </button>
         </div>
     </div>
-    <div class="collapse w-50 m-auto ms-4" id="collapseExample">
-        <div class="card card-body ">
-            <form method="post" enctype="multipart/form-data" class="text-center">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-5">
+        <form method="post" enctype="multipart/form-data" class="text-center">
                 {% csrf_token %}
                 <table class="table table-borderless">
                     <tbody>
                         <tr>
-                            <th class="fw-light">логин</th>
+                            <th class="text-start fw-light">Логин</th>
                             <td class="text-end">{{ user_form.username }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">имя</th>
+                            <th class="text-start fw-light">Имя</th>
                             <td class="text-end">{{ user_form.first_name }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">фамилия</th>
+                            <th class="text-start fw-light">Фамилия</th>
                             <td class="text-end">{{ user_form.last_name }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">почта</th>
+                            <th class="text-start fw-light">Почта</th>
                             <td class="text-end">{{ user_form.email }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">город</th>
+                            <th class="text-start fw-light">Город</th>
                             <td class="text-end">{{ profile_form.city }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">адрес</th>
+                            <th class="text-start fw-light">Адрес</th>
                             <td class="text-end">{{ profile_form.address }}</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-between">
-                    <a href="" class="btn btn-signup pt-1 pb-2">
-                        отмена
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="" class="btn btn-outline-secondary">
+                        Отмена
                     </a>
-                    <button type="submit" class="btn btn-success pt-1 pb-2 text-light btn-buy">сохранить</button>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
                 </div>
             </form>
+      </div>
+        <div class="modal-footer border-0">
+
         </div>
     </div>
+  </div>
 </div>
-<div class="card">
-    <div class="card-body">
+
         {% with total_items=order_history|length %}
         {% if total_items > 0 %}
-        <h5 class="card-title text-center border-bottom pb-3">история заказов</h5>
+        <h5 class="card-title text-center pb-3">История заказов</h5>
         <div class="card-text mt-3">
-            <table class="table table-hover table-borderless text-center">
+            <table class="table table-hover text-black table-striped text-center">
                 <thead>
                     <tr>
                         <th scope="col">номер заказа</th>
@@ -120,28 +126,27 @@
             </table>
         </div>
         {% else %}
-        <h5 class="card-title text-center ">история заказов пуста</h5>
+
         {% endif %}
         {% endwith %}
-    </div>
-</div>
+
 <div class="text-center mt-5">
-    <button type="button" class="btn btn-delete pt-1 pb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        выйти
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalOut">
+        Выйти
     </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModalOut" tabindex="-1" aria-labelledby="exampleModalOutLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-0">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body px-2 py-3 text-center">
-                    выйти из личного кабинета?
+                    Выйти из личного кабинета?
                 </div>
                 <div class="modal-footer border-0 d-flex justify-content-between">
-                    <button type="button" class="btn btn-signup pt-1 pb-2" data-bs-dismiss="modal">отмена</button>
-                    <a href="{% url 'logout' %}" class="btn btn-delete-2 pt-1 pb-2">
-                        выйти
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <a href="{% url 'logout' %}" class="btn btn-danger">
+                        Выйти
                     </a>
                 </div>
             </div>

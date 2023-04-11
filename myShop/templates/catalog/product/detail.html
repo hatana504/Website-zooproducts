@@ -1,57 +1,24 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block title %}
     {{ product.name }}
 {% endblock title %}
 {% block content %}
     <div class="row mb-5">
         <div class="col-4 position-relative m-auto">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/hello.jpg' %}{% endif %}"
-        class="img-thumbnail img-rounded">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/logo.jpg' %}{% endif %}"
+        class="img-thumbnail img-rounded mb-3">
             {% if user.is_authenticated %}
-            {% include "favorites/btn.html" with id=product.id %}
-            {% endif %}
-        </div>
-        <div class="col ms-4">
-            <h3 class="mb-5 text-lowercase text-center">{{ product.name }}</h3>
-            <div class="row">
-                <div class="col-6 text-lowercase m-auto">
-                    <div class="d-flex justify-content-between mb-2">
-                        <div class="fw-light me-3">цена</div>
-                        <div class="text-truncate fw-semibold">
-                            {{ product.price }} ₽
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <div class="fw-light me-3">категория</div>
-                        <div class="text-truncate">
-                            {{ product.category }}
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <div class="fw-light me-3">бренд</div>
-                        <div class="text-truncate">
-                            {{ product.brand }}
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="fw-light me-3">для кого</div>
-                        <div class="text-truncate">
-                            {{ product.animal }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 m-auto">
-                   {% if user.is_authenticated %}
-                    <form action="{% url 'cart_add' product.id %}" method="post" class="mb-5">
-                        <div class="mb-3">
+                    <form action="{% url 'cart_add' product.id %}" method="post" class="d-flex justify-content-between">
+                        <div class="w-100 me-3">
                         {{ cart_product_form }}
                         {% csrf_token %}
                         </div>
-                        <input type="submit" value="купить" class="btn pt-1 pb-2 w-100 fw-semibold btn-do">
+                        <input type="submit" value="Купить" class="btn btn-success w-100">
                     </form>
                     {% else %}
-                    <button type="button" class="btn pt-1 pb-2 w-100 fw-semibold btn-do mb-3"
+                    <button type="button" class="btn w-100 btn-success"
                             data-bs-toggle="modal" data-bs-target="#exampleModal">
                         купить
                     </button>
@@ -62,40 +29,51 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body px-2 py-3 text-center">
-                                    для покупки {{ product.name }} необходимо авторизоваться
+                                    Для покупки {{ product.name }} необходимо авторизоваться
                                 </div>
                                 <div class="modal-footer border-0 d-flex justify-content-between">
-                                    <button type="button" class="btn btn-signup pt-1 pb-2" data-bs-dismiss="modal">отмена</button>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
                                     <a href="{% url 'login' %}">
-                                        <button type="button" class="btn btn-secondary btn-log pt-1 pb-2">войти</button>
+                                        <button type="button" class="btn btn-danger">Войти</button>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% endif %}
-                </div>
+        </div>
+        <div class="col ms-4">
+                    <h3 class="mb-5">{{ product.name }}</h3>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="me-3">Цена</div>
+                        <div class="text-truncate fw-semibold">
+                            {{ product.price }} руб
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="me-3">Тип мебели</div>
+                        <div class="text-truncate">
+                            {{ product.type }}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="me-3">Производитель</div>
+                        <div class="text-truncate">
+                            {{ product.brand }}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="me-3">Материал</div>
+                        <div class="text-truncate">
+                            {{ product.material }}
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="me-3">Описание</div>
+                        <div class="text-truncate">
+                             {{ product.description }}
+                        </div>
+                    </div>
             </div>
-        </div>
-    </div>
-    <div>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link btn-detail active" id="descr-tab" data-bs-toggle="tab" data-bs-target="#descr-tab-pane"
-                        type="button" role="tab" aria-controls="descr-tab-pane" aria-selected="true">описание</button>
-            </li>
-<!--            <li class="nav-item" role="presentation">-->
-<!--                <button class="nav-link btn-detail" id="review-tab" data-bs-toggle="tab" data-bs-target="#review-tab-pane"-->
-<!--                        type="button" role="tab" aria-controls="review-tab-pane" aria-selected="false">отзывы</button>-->
-<!--            </li>-->
-        </ul>
-        <div class="tab-content mt-3" id="myTabContent">
-          <div class="tab-pane fade show active" id="descr-tab-pane" role="tabpanel" aria-labelledby="descr-tab" tabindex="0">
-              {{ product.description }}
-          </div>
-<!--          <div class="tab-pane fade" id="review-tab-pane" role="tabpanel" aria-labelledby="review-tab" tabindex="0">-->
-<!--              ...-->
-<!--          </div>-->
-        </div>
     </div>
 {% endblock content %}
