@@ -5,71 +5,71 @@
     Оформление заказа
 {% endblock title %}
 {% block content %}
-    <h1 class="mb-4">оформление заказа</h1>
+    <h1 class="mb-4">Оформление заказа</h1>
     <div class="row">
-        <div class="col-6">
-            <form action="." method="post" class="text-lowercase">
+<!--        <div class="col-5 card me-auto">-->
+<!--            <a href="{% url 'cart_detail' %}" class="text-decoration-none">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title text-dark text-center mb-3">Заказ</h5>-->
+<!--                    <ul class="list-group">-->
+<!--                        {% for item in cart %}-->
+<!--                        <li class="list-group-item border border-0 text-black">-->
+<!--                            <div class="row">-->
+<!--                                <div class="col">{{ item.product.name }}({{ item.quantity }})</div>-->
+<!--                                <div class="col text-end">{{ item.total_price }} руб</div>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        {% endfor %}-->
+<!--                        {% if cart.promocode %}-->
+<!--                        <li class="list-group-item border border-0 text-black">-->
+<!--                            <div class="row">-->
+<!--                                <div class="col">{{ cart.promocode.code }}({{ cart.promocode.discount }}%)</div>-->
+<!--                                <div class="col text-end">-{{ cart.get_discount|floatformat:"2" }} руб</div>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        {% endif %}-->
+<!--                        <hr>-->
+<!--                        <li class="list-group-item border border-0 text-black">-->
+<!--                            <h5 class="row">-->
+<!--                                <div class="col">итого</div>-->
+<!--                                <div class="col text-end">{{ cart.get_total_price_after_discount|floatformat:"2" }} руб</div>-->
+<!--                            </h5>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </a>-->
+<!--        </div>-->
+        <div class="col-6 m-auto">
+            <form action="." method="post" class="">
                 {% csrf_token %}
                 <table class="table table-borderless">
                     <tbody>
                         <tr>
-                            <th class="fw-light">имя</th>
+                            <th class="fw-light">Имя</th>
                             <td class="text-end">{{ user.first_name }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">фамилия</th>
+                            <th class="fw-light">Фамилия</th>
                             <td class="text-end">{{ user.last_name }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">почта</th>
+                            <th class="fw-light">Почта</th>
                             <td class="text-end">{{ user.email }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">город</th>
+                            <th class="fw-light">Город</th>
                             <td class="text-end">{{ form.city }}</td>
                         </tr>
                         <tr>
-                            <th class="fw-light">адрес</th>
+                            <th class="fw-light">Адрес</th>
                             <td class="text-end">{{ form.address }}</td>
                         </tr>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-success pt-1 pb-2 w-100 fw-semibold text-light mt-4 btn-buy">
-                    оплатить заказ
+                <button type="submit" class="btn btn-success w-100 mt-4">
+                    Оформить
                 </button>
             </form>
-        </div>
-        <div class="col-5 card ms-auto">
-            <a href="{% url 'cart_detail' %}" class="text-decoration-none">
-                <div class="card-body">
-                    <h5 class="card-title text-dark text-center mb-3">ваш заказ</h5>
-                    <ul class="list-group">
-                        {% for item in cart %}
-                        <li class="list-group-item border border-0 text-black">
-                            <div class="row">
-                                <div class="col">{{ item.product.name }}({{ item.quantity }})</div>
-                                <div class="col text-end">{{ item.total_price }} ₽</div>
-                            </div>
-                        </li>
-                        {% endfor %}
-                        {% if cart.promocode %}
-                        <li class="list-group-item border border-0 text-black">
-                            <div class="row">
-                                <div class="col">{{ cart.promocode.code }}({{ cart.promocode.discount }}%)</div>
-                                <div class="col text-end">-{{ cart.get_discount|floatformat:"2" }} ₽</div>
-                            </div>
-                        </li>
-                        {% endif %}
-                        <hr>
-                        <li class="list-group-item border border-0 text-black">
-                            <h5 class="row">
-                                <div class="col">итого</div>
-                                <div class="col text-end">{{ cart.get_total_price_after_discount|floatformat:"2" }} ₽</div>
-                            </h5>
-                        </li>
-                    </ul>
-                </div>
-            </a>
         </div>
     </div>
 {% endblock content %}
